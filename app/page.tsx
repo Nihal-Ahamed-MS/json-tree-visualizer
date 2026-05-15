@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { SplitPane, Pane } from "react-split-pane";
-import { XCircleIcon, CheckCircleIcon, SidebarIcon, HeartIcon, GithubLogoIcon } from "@phosphor-icons/react";
+import { XCircleIcon, CheckCircleIcon, SidebarIcon } from "@phosphor-icons/react";
 import Editor from "@monaco-editor/react";
 import { getDataFromLocal, isValidJson } from "@/lib/helper";
 import { LOCAL_STORAGE_KEY, SIDEBAR_STATE } from "@/lib/constants";
@@ -43,7 +43,6 @@ export default function Page() {
                 >
                     {isSidebarOpen ? (
                         <div className="flex h-full flex-col bg-[#111111]">
-                            {/* top bar */}
                             <div className="flex items-center gap-2 border-b border-zinc-800 px-3 py-2">
                                 <button
                                     onClick={handleToggleSidebar}
@@ -92,7 +91,6 @@ export default function Page() {
                 </Pane>
                 <Pane>
                     <div className="flex h-full flex-col bg-[#0a0a0a]">
-                        {/* canvas area */}
                         <div className="flex flex-1 items-center justify-center">
                             <p className="text-xs font-medium uppercase tracking-widest text-zinc-600">
                                 Canvas
