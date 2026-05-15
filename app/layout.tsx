@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
+import './index.css';
 
-const dmSans = DM_Sans({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "JSON Tree Visualizer",
@@ -15,8 +16,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={dmSans.className}>
-      <body className="bg-[#faf9f6] text-stone-900 antialiased">
+    <html lang="en" className={inter.variable}>
+      <body className="bg-[#0a0a0a] text-zinc-50 antialiased font-sans selection:bg-cyan-500/30">
         {children}
       </body>
     </html>
