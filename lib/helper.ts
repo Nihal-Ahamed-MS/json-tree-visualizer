@@ -10,6 +10,8 @@ export const isValidJson = (value: string) => {
 };
 
 export const getDataFromLocal = (key: string) => {
+    console.log(localStorage,"localStorage")
+    if (!localStorage) return null;
     const item = localStorage.getItem(key);
     if (item) {
         return item

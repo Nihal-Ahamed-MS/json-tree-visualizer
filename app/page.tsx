@@ -7,6 +7,7 @@ import Editor from "@monaco-editor/react";
 import { getDataFromLocal, isValidJson } from "@/lib/helper";
 import { LOCAL_STORAGE_KEY, SIDEBAR_STATE } from "@/lib/constants";
 import { SplitDivider } from "./components/Splitter";
+import JsonRenderer from "./JsonRenderer";
 
 export default function Page() {
 
@@ -91,10 +92,8 @@ export default function Page() {
                 </Pane>
                 <Pane>
                     <div className="flex h-full flex-col bg-[#0a0a0a]">
-                        <div className="flex flex-1 items-center justify-center">
-                            <p className="text-xs font-medium uppercase tracking-widest text-zinc-600">
-                                Canvas
-                            </p>
+                        <div className="flex-1 overflow-hidden">
+                            <JsonRenderer jsonData={validJson ? jsonData : ""} />
                         </div>
 
                         <div className="flex items-center justify-between border-t border-zinc-800 px-4 py-2 bg-zinc-800">
