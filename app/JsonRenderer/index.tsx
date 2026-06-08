@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react'
 
 interface CanvasNode {
     id: string
@@ -59,42 +59,8 @@ function makeNode(
     }
 }
 
-function buildNodes(json: string): CanvasNode[] {
-    try {
-        const data = JSON.parse(json)
-        if (data === null || typeof data !== 'object') return []
+const =  buildNodes(json: string): CanvasNode[] {
 
-        if (Array.isArray(data)) {
-            const maxH = Math.max(
-                ...(data as unknown[]).map(item =>
-                    typeof item === 'object' && item !== null
-                        ? HDR_H + Object.keys(item as object).length * ROW_H + PAD
-                        : HDR_H + ROW_H + PAD,
-                ),
-                HDR_H + ROW_H + PAD,
-            )
-            const cols = Math.max(1, Math.ceil(Math.sqrt(data.length)))
-            return (data as unknown[]).map((item, i) =>
-                makeNode(String(i), `[${i}]`, item, i % cols, Math.floor(i / cols), maxH),
-            )
-        }
-
-        const entries = Object.entries(data as Record<string, unknown>)
-        const maxH = Math.max(
-            ...entries.map(([, v]) =>
-                typeof v === 'object' && v !== null && !Array.isArray(v)
-                    ? HDR_H + Object.keys(v as object).length * ROW_H + PAD
-                    : HDR_H + ROW_H + PAD,
-            ),
-            HDR_H + ROW_H + PAD,
-        )
-        const cols = Math.max(1, Math.ceil(Math.sqrt(entries.length)))
-        return entries.map(([k, v], i) =>
-            makeNode(k, k, v, i % cols, Math.floor(i / cols), maxH),
-        )
-    } catch {
-        return []
-    }
 }
 
 function drawNode(ctx: CanvasRenderingContext2D, n: CanvasNode) {
