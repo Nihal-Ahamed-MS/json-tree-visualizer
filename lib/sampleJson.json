@@ -1,0 +1,99 @@
+{
+    "store": "JSON Tree Demo Store",
+    "id": 1024,
+    "rating": 4.7,
+    "balance": -250.5,
+    "isOpen": true,
+    "isVerified": false,
+    "closedReason": null,
+    "nickname": "",
+    "tagline": "A deliberately long string value that should be truncated when it is rendered inside a node row",
+    "emptyObject": {},
+    "emptyArray": [],
+    "owner": {
+        "name": "Ada Lovelace",
+        "age": 36,
+        "active": true,
+        "contact": {
+            "email": "ada@example.com",
+            "phone": null,
+            "address": {
+                "street": "12 Analytical Lane",
+                "city": "London",
+                "geo": {
+                    "lat": 51.5072,
+                    "lng": -0.1276,
+                    "precision": {
+                        "meters": 5,
+                        "source": "gps"
+                    }
+                }
+            }
+        }
+    },
+    "tags": ["books", "coffee", "vinyl"],
+    "openHours": [9, 10, 9, 9, 11, 12, 0],
+    "mixedPrimitives": ["text", 42, 3.14, true, false, null, ""],
+    "products": [
+        {
+            "sku": "BK-001",
+            "title": "The Pragmatic Programmer",
+            "price": 39.99,
+            "inStock": true,
+            "authors": ["Andrew Hunt", "David Thomas"],
+            "dimensions": { "width": 18.5, "height": 23.1, "unit": "cm" },
+            "reviews": [
+                { "user": "sam", "stars": 5, "helpful": [true, true, false] },
+                { "user": "lee", "stars": 4, "helpful": [] }
+            ]
+        },
+        {
+            "sku": "CF-778",
+            "title": "Single Origin Beans",
+            "price": 14.5,
+            "inStock": false,
+            "authors": [],
+            "dimensions": {},
+            "reviews": []
+        }
+    ],
+    "arrayOfArraysOfObjects": [
+        [
+            { "x": 0, "y": 0 },
+            { "x": 1, "y": 0 }
+        ],
+        [{ "x": 0, "y": 1 }]
+    ],
+    "mixedArray": [
+        "plain string",
+        7,
+        null,
+        { "kind": "object in array", "nested": { "deeper": true } },
+        ["array", "in", "array"],
+        [{ "kind": "object in array in array" }],
+        {},
+        []
+    ],
+    "departments": {
+        "fiction": {
+            "shelves": [
+                { "code": "F1", "genres": ["fantasy", "sci-fi"] },
+                { "code": "F2", "genres": ["mystery"] }
+            ]
+        },
+        "music": {
+            "shelves": [],
+            "formats": { "vinyl": 120, "cd": 45, "cassette": 0 }
+        }
+    },
+    "schedule": {
+        "weekdays": [
+            { "day": "Mon", "shifts": [["09:00", "13:00"], ["14:00", "18:00"]] },
+            { "day": "Tue", "shifts": [["10:00", "16:00"]] }
+        ],
+        "holidays": [
+            { "date": "2026-12-25", "open": false },
+            { "date": "2026-12-31", "open": true, "hours": [10, 14] }
+        ]
+    }
+}
