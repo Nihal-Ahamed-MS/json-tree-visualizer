@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SplitPane, Pane } from "react-split-pane";
 import { XCircleIcon, CheckCircleIcon, SidebarIcon } from "@phosphor-icons/react";
 import Editor from "@monaco-editor/react";
@@ -14,9 +14,20 @@ export default function Page() {
 
     const COLLAPSED_WIDTH = 48;
     const [validJson, setValidJson] = useState(true);
-    const [jsonData, setJsonData] = useState<string>(() => getDataFromLocal(LOCAL_STORAGE_KEY.JSON_DATA) ?? "");
-    const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(() => Boolean(getDataFromLocal(LOCAL_STORAGE_KEY.SIDEBAR)) ?? SIDEBAR_STATE.OPEN);
+    const [jsonData, setJsonData] = useState<string>(DEFAULT_JSON);
+    const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(SIDEBAR_STATE.OPEN);
     const [sidebarSize, setSidebarSize] = useState<string | number>("20%");
+
+    useEffect(() => {
+        const storedJson = getDataFromLocal(LOCAL_STORAGE_KEY.JSON_DATA) ?? DEFAULT_JSON;
+        setJsonData(storedJson);
+        setValidJson(isValidJson(storedJson) ?? true);
+
+        const storedSidebar = getDataFromLocal(LOCAL_STORAGE_KEY.SIDEBAR);
+        if (storedSidebar !== null) {
+            setIsSidebarOpen(storedSidebar === "true");
+        }
+    }, []);
 
     const handleEditorOnChange = (value: string) => {
         setValidJson(isValidJson(value) ?? true);
