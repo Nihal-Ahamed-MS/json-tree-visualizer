@@ -7,7 +7,7 @@ import Editor from "@monaco-editor/react";
 import { getDataFromLocal, isValidJson } from "@/lib/helper";
 import { DEFAULT_JSON, LOCAL_STORAGE_KEY, SIDEBAR_STATE } from "@/lib/constants";
 import { SplitDivider } from "../components/Splitter";
-import JsonRenderer from "../components/JsonRenderer";
+import { JsonRenderer } from "@nihal-ahamed-ms/json-tree-visualizer";
 import FpsMeter from "../components/FPSMeter";
 
 export default function Page() {

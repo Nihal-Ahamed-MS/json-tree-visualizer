@@ -2,6 +2,9 @@
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 
+/* The renderer package lives outside demo/, so Tailwind won't scan it by default */
+@source '../../src';
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
