@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#0a0a0a"/>
+  <rect x="1" y="1" width="62" height="62" rx="13" fill="none" stroke="#27272a" stroke-width="2"/>
+  <!-- braces -->
+  <g fill="none" stroke="#a1a1aa" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 13c-4 0-5 2-5 5v8c0 3-2 6-5 6 3 0 5 3 5 6v8c0 3 1 5 5 5"/>
+    <path d="M47 13c4 0 5 2 5 5v8c0 3 2 6 5 6-3 0-5 3-5 6v8c0 3-1 5-5 5"/>
+  </g>
+  <!-- tree -->
+  <g stroke="#a1a1aa" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <path d="M24 32h6M30 32v-8h7M30 32v8h7"/>
+  </g>
+  <circle cx="22" cy="32" r="4.5" fill="#a1a1aa"/>
+  <circle cx="41" cy="24" r="4.5" fill="#a1a1aa"/>
+  <circle cx="41" cy="40" r="4.5" fill="#a1a1aa"/>
+</svg>

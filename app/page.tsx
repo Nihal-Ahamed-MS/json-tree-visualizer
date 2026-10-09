@@ -6,9 +6,9 @@ import { XCircleIcon, CheckCircleIcon, SidebarIcon } from "@phosphor-icons/react
 import Editor from "@monaco-editor/react";
 import { getDataFromLocal, isValidJson } from "@/lib/helper";
 import { DEFAULT_JSON, LOCAL_STORAGE_KEY, SIDEBAR_STATE } from "@/lib/constants";
-import { SplitDivider } from "./components/Splitter";
-import JsonRenderer from "./JsonRenderer";
-import FpsMeter from "./components/FPSMeter";
+import { SplitDivider } from "../components/Splitter";
+import JsonRenderer from "../components/JsonRenderer";
+import FpsMeter from "../components/FPSMeter";
 
 export default function Page() {
 
