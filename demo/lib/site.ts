@@ -1,0 +1,30 @@
+export const SITE = {
+    url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://jsontree.justadev.in',
+    name: 'JSON Tree Visualizer',
+    title: 'JSON Tree Visualizer – View Large JSON as an Interactive Graph Online',
+    description:
+        'Free online JSON tree visualizer. Paste JSON and instantly see it as an interactive, zoomable tree graph. Canvas-powered to stay fast on large JSON files with thousands of lines. Validate, explore and understand nested JSON in your browser.',
+    keywords: [
+        'json tree visualizer',
+        'json visualizer',
+        'json viewer',
+        'json tree viewer',
+        'json graph',
+        'json visualization',
+        'visualize json online',
+        'json to tree',
+        'json to graph',
+        'json diagram',
+        'online json viewer',
+        'large json viewer',
+        'json formatter',
+        'json validator',
+        'json explorer',
+        'react json tree',
+    ],
+    author: {
+        name: 'Nihal Ahamed',
+        url: 'https://github.com/Nihal-Ahamed-MS',
+    },
+    repo: 'https://github.com/Nihal-Ahamed-MS/json-tree-visualizer',
+};

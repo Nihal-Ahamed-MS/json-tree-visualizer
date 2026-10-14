@@ -1,4 +1,10 @@
+import type { Metadata } from "next"
 import Link from "next/link"
+
+export const metadata: Metadata = {
+    title: "Page Not Found",
+    robots: { index: false },
+}
 
 export default function NotFound() {
     return (
@@ -17,12 +23,12 @@ export default function NotFound() {
                 >
                     Go Home
                 </Link>
-                <Link
-                    href="/contact"
+                <a
+                    href="https://github.com/Nihal-Ahamed-MS/json-tree-visualizer/issues"
                     className="px-4 py-2 rounded-md border text-sm hover:bg-muted transition"
                 >
-                    Contact Support
-                </Link>
+                    Report an Issue
+                </a>
             </div>
         </div>
     )

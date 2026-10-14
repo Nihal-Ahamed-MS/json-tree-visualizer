@@ -1,147 +1,90 @@
-"use client";
+import Visualizer from "@/components/Visualizer";
+import { SITE } from "@/lib/site";
 
-import { useEffect, useState } from "react";
-import { SplitPane, Pane } from "react-split-pane";
-import { XCircleIcon, CheckCircleIcon, SidebarIcon } from "@phosphor-icons/react";
-import Editor from "@monaco-editor/react";
-import { getDataFromLocal, isValidJson } from "@/lib/helper";
-import { DEFAULT_JSON, LOCAL_STORAGE_KEY, SIDEBAR_STATE } from "@/lib/constants";
-import { SplitDivider } from "../components/Splitter";
-import { JsonRenderer } from "@nihal-ahamed-ms/json-tree-visualizer";
-import FpsMeter from "../components/FPSMeter";
+const FEATURES = [
+    {
+        title: "Built for large JSON",
+        body: "The tree is drawn on an HTML canvas instead of thousands of DOM nodes, so files with 5,000+ lines stay smooth to pan and zoom.",
+    },
+    {
+        title: "Interactive tree graph",
+        body: "Every object and array becomes a node connected by edges. Drag the canvas to pan, scroll to zoom and drag nodes to rearrange the layout.",
+    },
+    {
+        title: "Live JSON validation",
+        body: "The built-in editor checks your JSON as you type and tells you right away whether it is valid, so you can fix syntax errors before visualizing.",
+    },
+    {
+        title: "Private by default",
+        body: "Everything runs in your browser. Your JSON is never uploaded to a server and is only saved to your own browser's local storage.",
+    },
+];
+
+const STEPS = [
+    "Paste or type your JSON into the editor on the left.",
+    "Check the status bar to confirm the JSON is valid.",
+    "Explore the generated tree on the canvas: pan, zoom and drag nodes.",
+    "Collapse the editor panel to give the tree the full screen.",
+];
+
+const FAQS = [
+    {
+        q: "What is a JSON tree visualizer?",
+        a: "A JSON tree visualizer turns raw JSON text into a visual graph where each object, array and value is a node. It makes deeply nested API responses, config files and data payloads much easier to read than plain text.",
+    },
+    {
+        q: "Can it handle large JSON files?",
+        a: "Yes. Rendering happens on a canvas rather than the DOM, which keeps the visualizer responsive on JSON documents with thousands of lines where many other online viewers freeze.",
+    },
+    {
+        q: "Is my JSON data sent to a server?",
+        a: "No. Parsing, validation and rendering all happen locally in your browser. Nothing you paste leaves your machine.",
+    },
+    {
+        q: "Is the JSON tree visualizer free?",
+        a: "Yes, it is completely free and open source under the MIT license. You can also use the renderer in your own React app via the @nihal-ahamed-ms/json-tree-visualizer npm package.",
+    },
+];
+
+const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebApplication",
+            "@id": `${SITE.url}/#app`,
+            name: SITE.name,
+            url: SITE.url,
+            description: SITE.description,
+            applicationCategory: "DeveloperApplication",
+            operatingSystem: "Any (web browser)",
+            browserRequirements: "Requires JavaScript and HTML5 canvas",
+            isAccessibleForFree: true,
+            offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+            featureList: FEATURES.map((f) => f.title),
+            author: { "@type": "Person", name: SITE.author.name, url: SITE.author.url },
+            sameAs: [SITE.repo],
+        },
+        {
+            "@type": "FAQPage",
+            "@id": `${SITE.url}/#faq`,
+            mainEntity: FAQS.map(({ q, a }) => ({
+                "@type": "Question",
+                name: q,
+                acceptedAnswer: { "@type": "Answer", text: a },
+            })),
+        },
+    ],
+};
 
 export default function Page() {
-
-    const COLLAPSED_WIDTH = 48;
-    const [validJson, setValidJson] = useState(true);
-    const [jsonData, setJsonData] = useState<string>(DEFAULT_JSON);
-    const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(SIDEBAR_STATE.OPEN);
-    const [sidebarSize, setSidebarSize] = useState<string | number>("20%");
-
-    useEffect(() => {
-        const storedJson = getDataFromLocal(LOCAL_STORAGE_KEY.JSON_DATA) ?? DEFAULT_JSON;
-        setJsonData(storedJson);
-        setValidJson(isValidJson(storedJson) ?? true);
-
-        const storedSidebar = getDataFromLocal(LOCAL_STORAGE_KEY.SIDEBAR);
-        if (storedSidebar !== null) {
-            setIsSidebarOpen(storedSidebar === "true");
-        }
-    }, []);
-
-    const handleEditorOnChange = (value: string) => {
-        setValidJson(isValidJson(value) ?? true);
-        setJsonData(value);
-
-        localStorage.setItem(LOCAL_STORAGE_KEY.JSON_DATA, value);
-    };
-
-    const handleToggleSidebar = () => {
-        setIsSidebarOpen(!isSidebarOpen);
-        localStorage.setItem(LOCAL_STORAGE_KEY.SIDEBAR, String(!isSidebarOpen));
-    };
-
     return (
-        <div className="h-screen w-screen overflow-hidden bg-[#0a0a0a] text-zinc-50">
-            <SplitPane
-                direction="horizontal"
-                resizable={isSidebarOpen}
-                onResizeEnd={(sizes) => setSidebarSize(sizes[0])}
-                divider={isSidebarOpen ? SplitDivider : undefined}
-            >
-                <Pane
-                    size={isSidebarOpen ? sidebarSize : COLLAPSED_WIDTH}
-                    minSize={isSidebarOpen ? "15%" : COLLAPSED_WIDTH}
-                    maxSize={isSidebarOpen ? "60%" : COLLAPSED_WIDTH}
-                >
-                    {isSidebarOpen ? (
-                        <div className="flex h-full flex-col bg-[#111111]">
-                            <div className="flex items-center gap-2 border-b border-zinc-800 px-3 py-2">
-                                <button
-                                    onClick={handleToggleSidebar}
-                                    className="cursor-pointer rounded p-1 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-100"
-                                    aria-label="Collapse editor"
-                                >
-                                    <SidebarIcon size={16} />
-                                </button>
-                                <span className="mt-auto mb-auto text-xs font-semibold text-zinc-600 select-none">
-                                    JSON Tree
-                                </span>
-                            </div>
-                            <div className="flex-1 overflow-hidden">
-                                <Editor
-                                    height="100%"
-                                    defaultLanguage="json"
-                                    value={jsonData}
-                                    onChange={(val) => handleEditorOnChange(val ?? "")}
-                                    theme="vs-dark"
-                                    options={{
-                                        minimap: { enabled: false },
-                                        fontSize: 13,
-                                        lineNumbers: "on",
-                                        scrollBeyondLastLine: false,
-                                        renderLineHighlight: "none",
-                                        overviewRulerLanes: 0,
-                                        padding: { top: 12 },
-                                    }}
-                                />
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="flex h-full flex-col items-center bg-[#111111] pt-2">
-                            <button
-                                onClick={handleToggleSidebar}
-                                className="cursor-pointer rounded p-1 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-100"
-                                aria-label="Expand editor"
-                            >
-                                <SidebarIcon size={16} />
-                            </button>
-                            <span className="mt-auto mb-auto -rotate-90 text-xs font-semibold text-nowrap text-zinc-600 select-none">
-                                JSON Tree
-                            </span>
-                        </div>
-                    )}
-                </Pane>
-                <Pane>
-                    <div className="flex h-full flex-col bg-[#0a0a0a]">
-                        <div className="flex-1 overflow-hidden">
-                            <JsonRenderer jsonData={validJson ? jsonData : ""} />
-                            <FpsMeter />
-                        </div>
+        <main>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+            />
 
-                        <div className="flex items-center justify-between border-t border-zinc-800 px-4 py-2 bg-zinc-800">
-                            {jsonData ? (
-                                validJson ? (
-                                    <span className="flex items-center gap-1.5 text-xs font-medium text-emerald-400">
-                                        <CheckCircleIcon size={13} weight="fill" />
-                                        Valid JSON
-                                    </span>
-                                ) : (
-                                    <span className="flex items-center gap-1.5 text-xs font-medium text-red-400">
-                                        <XCircleIcon size={13} weight="fill" />
-                                        Invalid JSON
-                                    </span>
-                                )
-                            ) : (
-                                <span />
-                            )}
-                            <div className="flex items-center text-xs gap-1 text-zinc-400">
-                                <span className="flex items-center gap-1">
-                                    Made with ❤️
-                                </span>
-                                <a
-                                    href="https://github.com/Nihal-Ahamed-MS"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="cursor-pointer flex items-center gap-1 transition-colors hover:text-zinc-300"
-                                >
-                                    GitHub
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </Pane>
-            </SplitPane>
-        </div>
+            <Visualizer />
+        </main>
     );
 }
