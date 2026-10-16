@@ -100,16 +100,16 @@ export function drawNode(ctx: CanvasRenderingContext2D, node: CanvasNode) {
     ctx.lineTo(x + width, y + HEADER_HEIGHT);
     ctx.stroke();
 
-    ctx.fillStyle = COLORS.headerDot;
-    ctx.beginPath();
-    ctx.arc(x + NODE_PADDING, y + HEADER_HEIGHT / 2, 3.5, 0, Math.PI * 2);
-    ctx.fill();
+    // ctx.fillStyle = COLORS.headerDot;
+    // ctx.beginPath();
+    // ctx.arc(x + NODE_PADDING, y + HEADER_HEIGHT / 2, 3.5, 0, Math.PI * 2);
+    // ctx.fill();
 
     ctx.fillStyle = COLORS.title;
     ctx.font = `600 13px ${FONT_FAMILY}`;
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'left';
-    ctx.fillText(truncate(title, MAX_TITLE_CHARS), x + NODE_PADDING + 12, y + HEADER_HEIGHT / 2);
+    ctx.fillText(truncate(title, MAX_TITLE_CHARS), x + NODE_PADDING, y + HEADER_HEIGHT / 2);
 
     ctx.font = `12px ${FONT_FAMILY}`;
     entries.forEach((entry, rowIndex) => {

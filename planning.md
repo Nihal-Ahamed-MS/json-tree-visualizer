@@ -1,9 +1,9 @@
 Project
 - Move to light weight editor - done
-- trip of any heavy library
+- trip of any heavy library - done
 - add SEO to demo - done
 - publish it to npm
-- Add onprem capacity
+- Add onprem capacity - done
 
 Tree 
 - make space customizing
