@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import { SITE } from '@/lib/site';
 import './index.css';
 
@@ -62,6 +63,7 @@ export default function RootLayout({
         <html lang="en" className={inter.variable}>
             <body className="bg-[#0a0a0a] font-sans text-zinc-50 antialiased selection:bg-cyan-500/30">
                 {children}
+                <Analytics />
             </body>
         </html>
     );
