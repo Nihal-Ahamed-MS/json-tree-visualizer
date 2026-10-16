@@ -10,8 +10,10 @@ import { oneDark } from "@codemirror/theme-one-dark";
 import { getDataFromLocal, isValidJson } from "@/lib/helper";
 import { DEFAULT_JSON, LOCAL_STORAGE_KEY, SIDEBAR_STATE } from "@/lib/constants";
 import { SplitDivider } from "@/components/Splitter";
-import { JsonRenderer } from "@nihal-ahamed-ms/json-tree-visualizer";
+import { DEFAULT_OPTIONS, JsonRenderer, type RendererOptions } from "@nihal-ahamed-ms/json-tree-visualizer";
 import FpsMeter from "@/components/FPSMeter";
+import Modal from "@/components/Modal";
+import SettingsForm from "@/components/SettingsForm";
 
 // defined at module level so CodeMirror doesn't reconfigure the editor on every render
 const EDITOR_EXTENSIONS = [
@@ -32,6 +34,10 @@ export default function Visualizer() {
     const [jsonData, setJsonData] = useState<string>(DEFAULT_JSON);
     const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(SIDEBAR_STATE.OPEN);
     const [sidebarSize, setSidebarSize] = useState<string | number>("20%");
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [rendererOptions, setRendererOptions] = useState<RendererOptions>(DEFAULT_OPTIONS);
+    const [settingsFormKey, setSettingsFormKey] = useState(0);
+    const [showFps, setShowFps] = useState(true);
 
     useEffect(() => {
         const storedJson = getDataFromLocal(LOCAL_STORAGE_KEY.JSON_DATA) ?? DEFAULT_JSON;
@@ -49,6 +55,12 @@ export default function Visualizer() {
         setJsonData(value);
 
         localStorage.setItem(LOCAL_STORAGE_KEY.JSON_DATA, value);
+    };
+
+    const handleResetSettings = () => {
+        setRendererOptions(DEFAULT_OPTIONS);
+        setSettingsFormKey((key) => key + 1);
+        setShowFps(true);
     };
 
     const handleToggleSidebar = () => {
@@ -113,8 +125,8 @@ export default function Visualizer() {
                 <Pane>
                     <div className="flex h-full flex-col bg-[#0a0a0a]">
                         <div className="flex-1 overflow-hidden">
-                            <JsonRenderer jsonData={validJson ? jsonData : ""} />
-                            <FpsMeter />
+                            <JsonRenderer jsonData={validJson ? jsonData : ""} options={rendererOptions} />
+                            {showFps && <FpsMeter />}
                         </div>
 
                         <div className="flex items-center justify-between border-t border-zinc-800 px-4 py-2 bg-zinc-800">
@@ -134,22 +146,52 @@ export default function Visualizer() {
                                 <span />
                             )}
                             <div className="flex items-center text-xs gap-1 text-zinc-400">
-                                <span className="flex items-center gap-1">
-                                    Made with ❤️
-                                </span>
-                                <a
-                                    href="https://github.com/Nihal-Ahamed-MS"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="cursor-pointer flex items-center gap-1 transition-colors hover:text-zinc-300"
+                                <button
+                                    onClick={() => setIsSettingsOpen(true)}
+                                    className="mr-2 flex cursor-pointer items-center gap-1 transition-colors hover:text-zinc-300"
+                                    aria-label="Settings"
                                 >
-                                    GitHub
-                                </a>
+                                    Settings
+                                </button>
+                                <div className="hover:text-zinc-300 flex cursor-pointer">
+                                    <span className="flex items-center gap-1">
+                                        Made with ❤️
+                                    </span>
+                                    <a
+                                        href="https://github.com/Nihal-Ahamed-MS"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="cursor-pointer flex items-center gap-1 transition-colors"
+                                    >
+                                        GitHub
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </Pane>
             </SplitPane>
+            <Modal
+                open={isSettingsOpen}
+                onOpenChange={setIsSettingsOpen}
+                title="Settings"
+                headerActions={
+                    <button
+                        onClick={handleResetSettings}
+                        className="cursor-pointer rounded-md border border-zinc-800 px-2 py-1 text-xs text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-100"
+                    >
+                        Reset to defaults
+                    </button>
+                }
+            >
+                <SettingsForm
+                    key={settingsFormKey}
+                    value={rendererOptions}
+                    onChange={setRendererOptions}
+                    showFps={showFps}
+                    onShowFpsChange={setShowFps}
+                />
+            </Modal>
         </section>
     );
 }

@@ -2,18 +2,22 @@ import type { MouseEvent } from 'react';
 import {
     CanvasNode,
     CanvasState,
-    HEADER_HEIGHT,
-    LEVEL_GAP,
+    DEFAULT_OPTIONS,
+    JsonRendererOptions,
     NODE_LABEL,
-    NODE_PADDING,
-    NODE_WIDTH,
     Point,
-    ROW_HEIGHT,
-    SIBLING_GAP,
+    RendererOptions,
     VALUE_TYPE,
     Viewport,
-    ZOOM,
+    ZoomOptions,
 } from './constants';
+
+export const resolveOptions = (options: JsonRendererOptions = {}): RendererOptions => ({
+    ...DEFAULT_OPTIONS,
+    ...options,
+    zoom: { ...DEFAULT_OPTIONS.zoom, ...options.zoom },
+    colors: { ...DEFAULT_OPTIONS.colors, ...options.colors },
+});
 
 type JsonContainer = Record<string, unknown> | unknown[];
 
@@ -34,9 +38,14 @@ export const toTreePoint = (state: CanvasState, point: Point): Point => ({
     y: (point.y - state.panOffset.y) / state.zoom,
 });
 
-export const zoomAt = (state: CanvasState, anchor: Point, requestedZoom: number) => {
+export const zoomAt = (
+    state: CanvasState,
+    anchor: Point,
+    requestedZoom: number,
+    { min, max }: ZoomOptions,
+) => {
     const anchoredTreePoint = toTreePoint(state, anchor);
-    state.zoom = Math.min(ZOOM.MAX, Math.max(ZOOM.MIN, requestedZoom));
+    state.zoom = Math.min(max, Math.max(min, requestedZoom));
     state.panOffset = {
         x: anchor.x - anchoredTreePoint.x * state.zoom,
         y: anchor.y - anchoredTreePoint.y * state.zoom,

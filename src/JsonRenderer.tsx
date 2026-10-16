@@ -1,32 +1,33 @@
 'use client';
 
-import React, { useRef, useEffect, useCallback, useState } from 'react';
+import React, { useRef, useEffect, useCallback, useMemo, useState } from 'react';
 import { MagnifyingGlassMinusIcon, MagnifyingGlassPlusIcon } from '@phosphor-icons/react';
-import { findNodeAt, getPointerPosition, isNodeVisible, zoomAt } from './helper';
-import {
-    CANVAS_MARGIN,
-    COLORS,
-    CanvasState,
-    FONT_FAMILY,
-    Point,
-    Viewport,
-    ZOOM,
-} from './constants';
+import { findNodeAt, getPointerPosition, isNodeVisible, resolveOptions, zoomAt } from './helper';
+import { CanvasState, FONT_FAMILY, JsonRendererOptions, Point, Viewport } from './constants';
 import { buildTree, drawEdge, drawGrid, drawNode } from './core';
 
-const JsonRenderer = ({ jsonData }: { jsonData: string }) => {
+interface JsonRendererProps {
+    jsonData: string;
+    options?: JsonRendererOptions;
+}
+
+const JsonRenderer = ({ jsonData, options }: JsonRendererProps) => {
+    const optionsKey = JSON.stringify(options ?? {});
+    const resolvedOptions = useMemo(() => resolveOptions(JSON.parse(optionsKey)), [optionsKey]);
+    const { zoom: zoomOptions } = resolvedOptions;
+
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const canvasState = useRef<CanvasState>({
         nodes: [],
         nodesById: new Map(),
-        panOffset: { x: CANVAS_MARGIN, y: CANVAS_MARGIN },
-        zoom: ZOOM.DEFAULT,
+        panOffset: { x: resolvedOptions.canvasMargin, y: resolvedOptions.canvasMargin },
+        zoom: zoomOptions.default,
         draggedNode: null,
         isPanning: false,
         lastPointer: { x: 0, y: 0 },
     });
-    const [zoomPercent, setZoomPercent] = useState(Math.round(ZOOM.DEFAULT * 100));
+    const [zoomPercent, setZoomPercent] = useState(Math.round(zoomOptions.default * 100));
 
     const render = useCallback(() => {
         const canvas = canvasRef.current;
@@ -42,12 +43,12 @@ const JsonRenderer = ({ jsonData }: { jsonData: string }) => {
         ctx.save();
         ctx.scale(pixelRatio, pixelRatio);
 
-        ctx.fillStyle = COLORS.background;
+        ctx.fillStyle = resolvedOptions.colors.background;
         ctx.fillRect(0, 0, width, height);
-        drawGrid(ctx, width, height, panOffset, zoom);
+        drawGrid(ctx, width, height, panOffset, zoom, resolvedOptions);
 
         if (nodes.length === 0) {
-            ctx.fillStyle = COLORS.emptyStateText;
+            ctx.fillStyle = resolvedOptions.colors.emptyStateText;
             ctx.font = `13px ${FONT_FAMILY}`;
             ctx.textBaseline = 'middle';
             ctx.textAlign = 'center';
@@ -70,25 +71,25 @@ const JsonRenderer = ({ jsonData }: { jsonData: string }) => {
                 const child = nodesById.get(entry.childId);
                 if (!child) return;
                 if (isNodeVisible(parent, viewport) || isNodeVisible(child, viewport)) {
-                    drawEdge(ctx, parent, rowIndex, child);
+                    drawEdge(ctx, parent, rowIndex, child, resolvedOptions);
                 }
             });
         }
 
         for (const node of nodes) {
-            if (isNodeVisible(node, viewport)) drawNode(ctx, node);
+            if (isNodeVisible(node, viewport)) drawNode(ctx, node, resolvedOptions);
         }
 
         ctx.restore();
-    }, []);
+    }, [resolvedOptions]);
 
     const applyZoom = useCallback(
         (anchor: Point, requestedZoom: number) => {
-            zoomAt(canvasState.current, anchor, requestedZoom);
+            zoomAt(canvasState.current, anchor, requestedZoom, zoomOptions);
             setZoomPercent(Math.round(canvasState.current.zoom * 100));
             render();
         },
-        [render],
+        [render, zoomOptions],
     );
 
     const zoomFromCenter = useCallback(
@@ -118,24 +119,24 @@ const JsonRenderer = ({ jsonData }: { jsonData: string }) => {
     }, [render]);
 
     useEffect(() => {
-        const nodes = jsonData ? buildTree(jsonData) : [];
+        const nodes = jsonData ? buildTree(jsonData, resolvedOptions) : [];
         canvasState.current.nodes = nodes;
         canvasState.current.nodesById = new Map(nodes.map((node) => [node.id, node]));
         canvasState.current.draggedNode = null;
         render();
-    }, [jsonData, render]);
+    }, [jsonData, render, resolvedOptions]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const handleWheel = (event: WheelEvent) => {
             event.preventDefault();
-            const zoomFactor = Math.exp(-event.deltaY * ZOOM.WHEEL_SENSITIVITY);
+            const zoomFactor = Math.exp(-event.deltaY * zoomOptions.wheelSensitivity);
             applyZoom(getPointerPosition(canvas, event), canvasState.current.zoom * zoomFactor);
         };
         canvas.addEventListener('wheel', handleWheel, { passive: false });
         return () => canvas.removeEventListener('wheel', handleWheel);
-    }, [applyZoom]);
+    }, [applyZoom, zoomOptions]);
 
     const handleMouseDown = useCallback((event: React.MouseEvent) => {
         const canvas = canvasRef.current;
@@ -193,15 +194,17 @@ const JsonRenderer = ({ jsonData }: { jsonData: string }) => {
                 />
                 <div className="absolute right-3 bottom-3 flex items-center gap-0.5 rounded-md border border-zinc-800 bg-[#111111] p-0.5 text-zinc-400">
                     <button
-                        onClick={() => zoomFromCenter(canvasState.current.zoom / ZOOM.BUTTON_STEP)}
-                        disabled={zoomPercent <= ZOOM.MIN * 100}
+                        onClick={() =>
+                            zoomFromCenter(canvasState.current.zoom / zoomOptions.buttonStep)
+                        }
+                        disabled={zoomPercent <= zoomOptions.min * 100}
                         className="cursor-pointer rounded p-1 transition-colors hover:bg-zinc-800 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-40"
                         aria-label="Zoom out"
                     >
                         <MagnifyingGlassMinusIcon size={16} />
                     </button>
                     <button
-                        onClick={() => zoomFromCenter(ZOOM.DEFAULT)}
+                        onClick={() => zoomFromCenter(zoomOptions.default)}
                         className="w-12 cursor-pointer rounded py-1 text-xs tabular-nums transition-colors hover:bg-zinc-800 hover:text-zinc-100"
                         aria-label="Reset zoom"
                         title="Reset zoom"
@@ -209,8 +212,10 @@ const JsonRenderer = ({ jsonData }: { jsonData: string }) => {
                         {zoomPercent}%
                     </button>
                     <button
-                        onClick={() => zoomFromCenter(canvasState.current.zoom * ZOOM.BUTTON_STEP)}
-                        disabled={zoomPercent >= ZOOM.MAX * 100}
+                        onClick={() =>
+                            zoomFromCenter(canvasState.current.zoom * zoomOptions.buttonStep)
+                        }
+                        disabled={zoomPercent >= zoomOptions.max * 100}
                         className="cursor-pointer rounded p-1 transition-colors hover:bg-zinc-800 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-40"
                         aria-label="Zoom in"
                     >

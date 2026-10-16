@@ -1,3 +1,12 @@
 export { default as JsonRenderer } from './JsonRenderer';
 export { buildTree } from './core';
-export type { CanvasNode, NodeEntry, Point } from './constants';
+export { DEFAULT_OPTIONS } from './constants';
+export type {
+    ColorOptions,
+    CanvasNode,
+    JsonRendererOptions,
+    NodeEntry,
+    Point,
+    RendererOptions,
+    ZoomOptions,
+} from './constants';

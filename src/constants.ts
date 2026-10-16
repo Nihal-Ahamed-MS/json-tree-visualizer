@@ -37,50 +37,105 @@ export interface Viewport {
     bottom: number;
 }
 
-export const NODE_WIDTH = 240;
-export const NODE_PADDING = 14;
-export const NODE_RADIUS = 8;
-export const HEADER_HEIGHT = 40;
-export const ROW_HEIGHT = 28;
+export interface ZoomOptions {
+    min: number;
+    max: number;
+    default: number;
+    buttonStep: number;
+    wheelSensitivity: number;
+}
 
-export const LEVEL_GAP = 96;
-export const SIBLING_GAP = 24;
-export const CANVAS_MARGIN = 48;
+export interface ColorOptions {
+    background: string;
+    gridDot: string;
+    emptyStateText: string;
+    nodeBody: string;
+    nodeHeader: string;
+    nodeBorder: string;
+    nodeShadow: string;
+    rowDivider: string;
+    headerDot: string;
+    title: string;
+    key: string;
+    value: string;
+    containerValue: string;
+    edge: string;
+}
 
-export const MAX_TITLE_CHARS = 26;
-export const MAX_KEY_CHARS = 14;
-export const MAX_VALUE_CHARS = 18;
+export interface RendererOptions {
+    nodeWidth: number;
+    nodePadding: number;
+    nodeRadius: number;
+    headerHeight: number;
+    rowHeight: number;
 
-export const GRID_SPACING = 24;
-export const GRID_DOT_RADIUS = 1;
-export const MIN_GRID_SPACING = 12; // keeps the dot grid from getting too dense when zoomed out
+    levelGap: number;
+    siblingGap: number;
+    canvasMargin: number;
 
-export const ZOOM = {
-    MIN: 0.1,
-    MAX: 3,
-    DEFAULT: 1,
-    BUTTON_STEP: 1.2, // multiplier per zoom button click
-    WHEEL_SENSITIVITY: 0.0015,
+    maxTitleChars: number;
+    maxKeyChars: number;
+    maxValueChars: number;
+
+    gridSpacing: number;
+    gridDotRadius: number;
+    minGridSpacing: number;
+
+    zoom: ZoomOptions;
+    colors: ColorOptions;
+}
+
+export type JsonRendererOptions = Partial<Omit<RendererOptions, 'zoom' | 'colors'>> & {
+    zoom?: Partial<ZoomOptions>;
+    colors?: Partial<ColorOptions>;
+};
+
+export const DEFAULT_OPTIONS: RendererOptions = {
+    nodeWidth: 240,
+    nodePadding: 14,
+    nodeRadius: 8,
+    headerHeight: 40,
+    rowHeight: 28,
+
+    levelGap: 96,
+    siblingGap: 24,
+    canvasMargin: 48,
+
+    maxTitleChars: 26,
+    maxKeyChars: 14,
+    maxValueChars: 18,
+
+    gridSpacing: 24,
+    gridDotRadius: 1,
+    minGridSpacing: 12,
+
+    zoom: {
+        min: 0.1,
+        max: 3,
+        default: 1,
+        buttonStep: 1.2,
+        wheelSensitivity: 0.0015,
+    },
+
+    colors: {
+        background: '#0a0a0a',
+        gridDot: '#1e1e1e',
+        emptyStateText: '#3f3f46',
+        nodeBody: '#161616',
+        nodeHeader: '#1d1d1d',
+        nodeBorder: '#2a2a2a',
+        nodeShadow: 'rgba(0,0,0,0.5)',
+        rowDivider: '#222',
+        headerDot: '#4ade80',
+        title: '#e4e4e7',
+        key: '#52525b',
+        value: '#a1a1aa',
+        containerValue: '#60a5fa',
+        edge: '#3f3f46',
+    },
 };
 
 export const FONT_FAMILY = 'system-ui, -apple-system, sans-serif';
-
-export const COLORS = {
-    background: '#0a0a0a',
-    gridDot: '#1e1e1e',
-    emptyStateText: '#3f3f46',
-    nodeBody: '#161616',
-    nodeHeader: '#1d1d1d',
-    nodeBorder: '#2a2a2a',
-    nodeShadow: 'rgba(0,0,0,0.5)',
-    rowDivider: '#222',
-    headerDot: '#4ade80',
-    title: '#e4e4e7',
-    key: '#52525b',
-    value: '#a1a1aa',
-    containerValue: '#60a5fa',
-    edge: '#3f3f46',
-};
 
 export const VALUE_TYPE = {
     OBJECT: 'object',
