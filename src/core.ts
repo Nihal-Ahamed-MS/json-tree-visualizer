@@ -44,7 +44,6 @@ export function drawGrid(
     ctx.fill();
 }
 
-/** Curved connector from a parent's row to the header of the child node it expands into. */
 export function drawEdge(
     ctx: CanvasRenderingContext2D,
     parent: CanvasNode,

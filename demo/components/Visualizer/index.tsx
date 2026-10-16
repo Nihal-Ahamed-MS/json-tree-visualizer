@@ -3,12 +3,27 @@
 import { useEffect, useState } from "react";
 import { SplitPane, Pane } from "react-split-pane";
 import { XCircleIcon, CheckCircleIcon, SidebarIcon } from "@phosphor-icons/react";
-import Editor from "@monaco-editor/react";
+import CodeMirror, { EditorView, Prec } from "@uiw/react-codemirror";
+import { json, jsonParseLinter } from "@codemirror/lang-json";
+import { linter } from "@codemirror/lint";
+import { oneDark } from "@codemirror/theme-one-dark";
 import { getDataFromLocal, isValidJson } from "@/lib/helper";
 import { DEFAULT_JSON, LOCAL_STORAGE_KEY, SIDEBAR_STATE } from "@/lib/constants";
 import { SplitDivider } from "@/components/Splitter";
 import { JsonRenderer } from "@nihal-ahamed-ms/json-tree-visualizer";
 import FpsMeter from "@/components/FPSMeter";
+
+// defined at module level so CodeMirror doesn't reconfigure the editor on every render
+const EDITOR_EXTENSIONS = [
+    json(),
+    linter(jsonParseLinter()),
+    Prec.highest(
+        EditorView.theme({
+            "&": { fontSize: "13px", backgroundColor: "#111111" },
+            ".cm-gutters": { backgroundColor: "#111111", border: "none" },
+        }),
+    ),
+];
 
 export default function Visualizer() {
 
@@ -69,23 +84,14 @@ export default function Visualizer() {
                                 </span>
                             </div>
                             <div className="flex-1 overflow-hidden">
-                                <Editor
-                                    height="100%"
-                                    defaultLanguage="json"
+                                <CodeMirror
                                     value={jsonData}
-                                    onChange={(val) => handleEditorOnChange(val ?? "")}
-                                    theme="vs-dark"
-                                    options={{
-                                        minimap: { enabled: false },
-                                        fontSize: 13,
-                                        lineNumbers: "on",
-                                        scrollBeyondLastLine: false,
-                                        renderLineHighlight: "none",
-                                        overviewRulerLanes: 0,
-                                        padding: { top: 12 },
-                                        // let the page scroll to the About section once the editor hits its end
-                                        scrollbar: { alwaysConsumeMouseWheel: false },
-                                    }}
+                                    height="100%"
+                                    className="h-full"
+                                    theme={oneDark}
+                                    extensions={EDITOR_EXTENSIONS}
+                                    onChange={handleEditorOnChange}
+                                    basicSetup={{ highlightActiveLine: false, highlightActiveLineGutter: false }}
                                 />
                             </div>
                         </div>
@@ -128,12 +134,6 @@ export default function Visualizer() {
                                 <span />
                             )}
                             <div className="flex items-center text-xs gap-1 text-zinc-400">
-                                <a
-                                    href="#about"
-                                    className="mr-2 transition-colors hover:text-zinc-300"
-                                >
-                                    About ↓
-                                </a>
                                 <span className="flex items-center gap-1">
                                     Made with ❤️
                                 </span>

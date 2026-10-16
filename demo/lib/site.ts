@@ -1,7 +1,7 @@
 export const SITE = {
     url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://jsontree.justadev.in',
     name: 'JSON Tree Visualizer',
-    title: 'JSON Tree Visualizer – View Large JSON as an Interactive Graph Online',
+    title: 'JSON Tree Visualizer',
     description:
         'Free online JSON tree visualizer. Paste JSON and instantly see it as an interactive, zoomable tree graph. Canvas-powered to stay fast on large JSON files with thousands of lines. Validate, explore and understand nested JSON in your browser.',
     keywords: [
