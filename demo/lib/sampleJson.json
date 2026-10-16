@@ -8,8 +8,6 @@
     "closedReason": null,
     "nickname": "",
     "tagline": "A deliberately long string value that should be truncated when it is rendered inside a node row",
-    "emptyObject": {},
-    "emptyArray": [],
     "owner": {
         "name": "Ada Lovelace",
         "age": 36,
@@ -31,9 +29,6 @@
             }
         }
     },
-    "tags": ["books", "coffee", "vinyl"],
-    "openHours": [9, 10, 9, 9, 11, 12, 0],
-    "mixedPrimitives": ["text", 42, 3.14, true, false, null, ""],
     "products": [
         {
             "sku": "BK-001",
@@ -41,11 +36,7 @@
             "price": 39.99,
             "inStock": true,
             "authors": ["Andrew Hunt", "David Thomas"],
-            "dimensions": { "width": 18.5, "height": 23.1, "unit": "cm" },
-            "reviews": [
-                { "user": "sam", "stars": 5, "helpful": [true, true, false] },
-                { "user": "lee", "stars": 4, "helpful": [] }
-            ]
+            "dimensions": { "width": 18.5, "height": 23.1, "unit": "cm" }
         },
         {
             "sku": "CF-778",
@@ -63,16 +54,6 @@
             { "x": 1, "y": 0 }
         ],
         [{ "x": 0, "y": 1 }]
-    ],
-    "mixedArray": [
-        "plain string",
-        7,
-        null,
-        { "kind": "object in array", "nested": { "deeper": true } },
-        ["array", "in", "array"],
-        [{ "kind": "object in array in array" }],
-        {},
-        []
     ],
     "departments": {
         "fiction": {
