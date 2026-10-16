@@ -81,6 +81,9 @@ export interface RendererOptions {
     gridDotRadius: number;
     minGridSpacing: number;
 
+    /** Shows a frames-per-second counter in the top-right corner of the canvas. */
+    showFps: boolean;
+
     zoom: ZoomOptions;
     colors: ColorOptions;
 }
@@ -108,6 +111,8 @@ export const DEFAULT_OPTIONS: RendererOptions = {
     gridSpacing: 24,
     gridDotRadius: 1,
     minGridSpacing: 12,
+
+    showFps: false,
 
     zoom: {
         min: 0.1,

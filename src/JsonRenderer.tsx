@@ -5,6 +5,7 @@ import { MagnifyingGlassMinusIcon, MagnifyingGlassPlusIcon } from '@phosphor-ico
 import { findNodeAt, getPointerPosition, isNodeVisible, resolveOptions, zoomAt } from './helper';
 import { CanvasState, FONT_FAMILY, JsonRendererOptions, Point, Viewport } from './constants';
 import { buildTree, drawEdge, drawGrid, drawNode } from './core';
+import FpsMeter from './FpsMeter';
 
 interface JsonRendererProps {
     jsonData: string;
@@ -192,6 +193,7 @@ const JsonRenderer = ({ jsonData, options }: JsonRendererProps) => {
                     onMouseUp={handleMouseUp}
                     onMouseLeave={handleMouseUp}
                 />
+                {resolvedOptions.showFps && <FpsMeter />}
                 <div className="absolute right-3 bottom-3 flex items-center gap-0.5 rounded-md border border-zinc-800 bg-[#111111] p-0.5 text-zinc-400">
                     <button
                         onClick={() =>

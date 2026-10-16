@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { MagnifyingGlassIcon } from '@phosphor-icons/react';
 import type { RendererOptions } from '@nihal-ahamed-ms/json-tree-visualizer';
 import {
+    DISPLAY_SECTION,
     type Field,
     type FieldPath,
     parseDraft,
@@ -16,13 +17,10 @@ import {
 type SettingsFormProps = {
     value: RendererOptions;
     onChange: (options: RendererOptions) => void;
-    showFps: boolean;
-    onShowFpsChange: (show: boolean) => void;
 };
 
-const DISPLAY_SECTION = { title: 'Display', label: 'FPS meter', key: 'showFps' };
-
-const SettingsForm = ({ value, onChange, showFps, onShowFpsChange }: SettingsFormProps) => {
+const SettingsForm = ({ value, onChange }: SettingsFormProps) => {
+    const { showFps } = value;
     const [drafts, setDrafts] = useState(() => toDrafts(value));
     const [query, setQuery] = useState('');
 
@@ -32,7 +30,6 @@ const SettingsForm = ({ value, onChange, showFps, onShowFpsChange }: SettingsFor
         if (parsed !== null) onChange(setValue(value, path, parsed));
     };
 
-    // a matching section title keeps the whole section; otherwise match on the field's label or key
     const search = query.trim().toLowerCase();
     const visibleSections = SECTIONS.map((section) => ({
         ...section,
@@ -79,7 +76,7 @@ const SettingsForm = ({ value, onChange, showFps, onShowFpsChange }: SettingsFor
                                 role="switch"
                                 aria-checked={showFps}
                                 aria-labelledby="setting-showFps"
-                                onClick={() => onShowFpsChange(!showFps)}
+                                onClick={() => onChange({ ...value, showFps: !showFps })}
                                 className={`relative h-5 w-9 shrink-0 cursor-pointer rounded-full border transition-colors ${
                                     showFps
                                         ? 'border-emerald-500 bg-emerald-500'

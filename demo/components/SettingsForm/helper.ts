@@ -1,12 +1,14 @@
 import type { RendererOptions } from "@nihal-ahamed-ms/json-tree-visualizer";
 
 type NestedGroup = "zoom" | "colors";
-type TopLevelKey = keyof Omit<RendererOptions, NestedGroup>;
+type TopLevelKey = keyof Omit<RendererOptions, NestedGroup | "showFps">;
 export type ZoomKey = keyof RendererOptions["zoom"];
 export type ColorKey = keyof RendererOptions["colors"];
 export type FieldPath = TopLevelKey | `zoom.${ZoomKey}` | `colors.${ColorKey}`;
 
 export type Field = { key: FieldPath; label: string; type?: "number" | "color" };
+
+export const DISPLAY_SECTION = { title: 'Display', label: 'FPS meter', key: 'showFps' };
 
 export const SECTIONS: { title: string; fields: Field[] }[] = [
     {
