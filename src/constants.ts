@@ -119,7 +119,7 @@ export const DEFAULT_OPTIONS: RendererOptions = {
         max: 3,
         default: 1,
         buttonStep: 1.2,
-        wheelSensitivity: 0.0015,
+        wheelSensitivity: 0.0100,
     },
 
     colors: {

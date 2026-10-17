@@ -14,7 +14,6 @@ import { DEFAULT_OPTIONS, JsonRenderer, type RendererOptions } from "@nihal-aham
 import Modal from "@/components/Modal";
 import SettingsForm from "@/components/SettingsForm";
 
-// defined at module level so CodeMirror doesn't reconfigure the editor on every render
 const EDITOR_EXTENSIONS = [
     json(),
     linter(jsonParseLinter()),
@@ -26,7 +25,6 @@ const EDITOR_EXTENSIONS = [
     ),
 ];
 
-// the demo shows the FPS meter by default; the library keeps it off
 const INITIAL_RENDERER_OPTIONS: RendererOptions = { ...DEFAULT_OPTIONS, showFps: true };
 
 export default function Visualizer() {
@@ -156,16 +154,13 @@ export default function Visualizer() {
                                     Settings
                                 </button>
                                 <div className="hover:text-zinc-300 flex cursor-pointer gap-1">
-                                    <span className="flex items-center gap-1">
-                                        Made with ❤️
-                                    </span>
                                     <a
                                         href="https://github.com/Nihal-Ahamed-MS"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="cursor-pointer flex items-center gap-1 transition-colors"
                                     >
-                                        GitHub
+                                        Made with ❤️ GitHub
                                     </a>
                                 </div>
                             </div>
