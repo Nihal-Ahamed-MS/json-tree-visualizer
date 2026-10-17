@@ -14,13 +14,6 @@ It renders the nodes and edges which shown in the viewport, it doesn't matter ho
 - Adjustable spacing between the nodes and edges
 - JSON Renderer alone is available as an NPM package
 
----
+## License
 
-## Getting Started
-
-```bash
-npm install
-npm run dev
-```
-
----
+[MIT](LICENSE)
