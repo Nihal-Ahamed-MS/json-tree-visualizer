@@ -1,11 +1,16 @@
 import { ImageResponse } from 'next/og';
 import { SITE } from '@/lib/site';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
 export const alt = SITE.title;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-export default function OpengraphImage() {
+export default async function OpengraphImage() {
+    const svg = await readFile(join(process.cwd(), 'app/icon.svg'), 'base64');
+    const img = `data:image/svg+xml;base64,${svg}`;
+
     return new ImageResponse(
         (
             <div
@@ -21,7 +26,7 @@ export default function OpengraphImage() {
                     fontFamily: 'sans-serif',
                 }}
             >
-                <div style={{ fontSize: 36, color: '#22d3ee', marginBottom: 24 }}>{'{ } → tree'}</div>
+                <img src={img} width={50} height={50} alt='logo' />
                 <div style={{ fontSize: 76, fontWeight: 700, lineHeight: 1.1 }}>{SITE.name}</div>
                 <div style={{ fontSize: 34, color: '#a1a1aa', marginTop: 24, maxWidth: 950 }}>
                     Visualize large JSON as an interactive, zoomable tree graph. Free, fast and private.
