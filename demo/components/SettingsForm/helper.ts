@@ -1,4 +1,4 @@
-import type { RendererOptions } from "@nihal-ahamed-ms/json-tree-visualizer";
+import type { RendererOptions } from "react-json-tree-visualizer";
 
 type NestedGroup = "zoom" | "colors";
 type TopLevelKey = keyof Omit<RendererOptions, NestedGroup | "showFps">;

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { MagnifyingGlassIcon } from '@phosphor-icons/react';
-import type { RendererOptions } from '@nihal-ahamed-ms/json-tree-visualizer';
+import type { RendererOptions } from 'react-json-tree-visualizer';
 import {
     DISPLAY_SECTION,
     type Field,

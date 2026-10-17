@@ -42,7 +42,7 @@ const FAQS = [
     },
     {
         q: "Is the JSON tree visualizer free?",
-        a: "Yes, it is completely free and open source under the MIT license. You can also use the renderer in your own React app via the @nihal-ahamed-ms/json-tree-visualizer npm package.",
+        a: "Yes, it is completely free and open source under the MIT license. You can also use the renderer in your own React app via the react-json-tree-visualizer npm package.",
     },
 ];
 

@@ -20,7 +20,7 @@
         ],
         "paths": {
             "@/*": ["./*"],
-            "@nihal-ahamed-ms/json-tree-visualizer": ["../src"]
+            "react-json-tree-visualizer": ["../src"]
         }
     },
     "include": [

@@ -10,7 +10,7 @@ import { oneDark } from "@codemirror/theme-one-dark";
 import { getDataFromLocal, isValidJson } from "@/lib/helper";
 import { DEFAULT_JSON, LOCAL_STORAGE_KEY, SIDEBAR_STATE } from "@/lib/constants";
 import { SplitDivider } from "@/components/Splitter";
-import { DEFAULT_OPTIONS, JsonRenderer, type RendererOptions } from "@nihal-ahamed-ms/json-tree-visualizer";
+import { DEFAULT_OPTIONS, JsonRenderer, type RendererOptions } from "react-json-tree-visualizer";
 import Modal from "@/components/Modal";
 import SettingsForm from "@/components/SettingsForm";
 

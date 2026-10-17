@@ -1,8 +1,28 @@
 {
-    "name": "@nihal-ahamed-ms/json-tree-visualizer",
-    "version": "0.1.0",
+    "name": "react-json-tree-visualizer",
+    "version": "0.0.1",
     "description": "Fast canvas-based JSON tree visualizer for React",
     "license": "MIT",
+    "author": "Nihal Ahamed",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Nihal-Ahamed-MS/json-tree-visualizer.git"
+    },
+    "homepage": "https://github.com/Nihal-Ahamed-MS/json-tree-visualizer#readme",
+    "bugs": {
+        "url": "https://github.com/Nihal-Ahamed-MS/json-tree-visualizer/issues"
+    },
+    "keywords": [
+        "json",
+        "tree",
+        "visualizer",
+        "viewer",
+        "react",
+        "canvas"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
     "type": "module",
     "sideEffects": false,
     "files": [
