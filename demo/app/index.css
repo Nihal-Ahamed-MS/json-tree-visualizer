@@ -3,7 +3,8 @@
 @import 'shadcn/tailwind.css';
 
 /* The renderer package lives outside demo/, so Tailwind won't scan it by default */
-@source '../../src';
+@source '../../node_modules/react-json-tree-visualizer/dist';
+@source '../node_modules/react-json-tree-visualizer/dist';
 
 @custom-variant dark (&:is(.dark *));
 

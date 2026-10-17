@@ -12,7 +12,7 @@ It renders the nodes and edges which shown in the viewport, it doesn't matter ho
 ### Additional support & features
 - Fully customizable nodes, edges, text and background colour
 - Adjustable spacing between the nodes and edges
-- JSON Renderer alone is available as an NPM package
+- JSON Renderer alone is available as an NPM package: [react-json-tree-visualizer](https://www.npmjs.com/package/react-json-tree-visualizer)
 
 ## License
 

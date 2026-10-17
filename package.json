@@ -1,6 +1,6 @@
 {
     "name": "react-json-tree-visualizer",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "description": "Fast canvas-based JSON tree visualizer for React",
     "license": "MIT",
     "author": "Nihal Ahamed",
@@ -51,7 +51,9 @@
         "build:demo": "npm run build -w demo",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
-        "prepublishOnly": "npm run build"
+        "prepublishOnly": "npm run build",
+        "prepack": "cp README.md README.github.md && cp README.npm.md README.md",
+        "postpack": "mv README.github.md README.md"
     },
     "peerDependencies": {
         "react": ">=18",
