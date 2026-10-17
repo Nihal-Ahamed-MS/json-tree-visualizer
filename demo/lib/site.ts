@@ -3,7 +3,7 @@ export const SITE = {
     name: 'JSON Tree Visualizer',
     title: 'JSON Tree Visualizer',
     description:
-        'Free online JSON tree visualizer. Paste JSON and instantly see it as an interactive, zoomable tree graph. Canvas-powered to stay fast on large JSON files with thousands of lines. Validate, explore and understand nested JSON in your browser.',
+        'Paste JSON and instantly see it as an interactive, zoomable tree graph. Canvas-powered to stay fast on large JSON files with thousands of lines. Validate, explore and understand nested JSON in your browser.',
     keywords: [
         'json tree visualizer',
         'json visualizer',

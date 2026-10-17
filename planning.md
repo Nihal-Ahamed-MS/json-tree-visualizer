@@ -20,9 +20,13 @@ Tree
 Canvas
 - show minimap
 - implement search
+- Add re center
 
 Node Update
 - Highlight node while dragging
 - update node color combination
 
 
+Testing
+- create benchmark and compare against other products
+- 
