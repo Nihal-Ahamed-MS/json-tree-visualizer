@@ -76,8 +76,10 @@ export const getPointerPosition = (
     return { x: event.clientX - rect.left, y: event.clientY - rect.top };
 };
 
-export const isNodeVisible = (node: CanvasNode, viewport: Viewport) =>
-    node.x + node.width >= viewport.left &&
-    node.x <= viewport.right &&
-    node.y + node.height >= viewport.top &&
-    node.y <= viewport.bottom;
+export const isNodeVisible = (node: CanvasNode, viewport: Viewport) => {
+    const xAxis = node.x + node.width >= viewport.left && node.x <= viewport.right
+    const yAxis = node.y + node.height >= viewport.top && node.y <= viewport.bottom;
+
+    if (xAxis && yAxis) return true;
+    return false
+}
